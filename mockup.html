@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Minecraft-Pacman</title>
+	<script src="jquery-1.11.3.min.js"></script>
+	<style>
+		body{
+			background-color: navy;
+		}
+		div.row div{
+			display: inline-block;
+			width: 50px;
+			height: 50px;
+			margin-right: 3px;
+		}
+		.wall{
+			background: url('rock.png');
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+		.steve{
+			background: url('steve.jpg');
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+		.creeper{
+			background: url('creeper.jpg');
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+		.coin{
+			background: url('coin.gif');
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+		.axe{
+			background: url('axe.png');
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+		.empty{
+			background-color: navy;
+		}
+		.steve_armor{
+			background: url('steve_armor.jpg');
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+	</style>
+</head>
+<body>
+	<div id="world"></div>
+	<h1 id="score">Score: 0</h1>
+</body>
+<script>
+	$(document).ready(function(){
+		
+
+		var steve = { left_and_right:4, up_and_down:8 };
+		var playerScore = 0;
+		
+		
+		var world = [
+			[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+			[0,1,0,0,1,1,0,0,1,1,1,1,1,1,1,1,0],
+			[0,1,0,1,0,1,0,0,1,0,1,0,0,0,4,1,0],
+			[0,4,1,1,1,1,1,1,1,0,1,1,1,0,0,3,0],
+			[0,1,1,0,3,0,1,0,0,0,0,0,1,0,0,1,0],
+			[0,1,0,0,1,0,1,3,3,1,1,1,1,1,1,1,0],
+			[0,1,1,1,1,1,1,0,0,1,0,1,4,0,0,1,0],
+			[0,1,0,0,0,0,1,1,1,0,0,1,0,0,0,1,0],
+			[0,1,4,1,9,1,1,0,4,1,1,1,3,1,1,1,0],
+			[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+		];
+		
+		var awesomeworld = [
+			[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+			[0,1,0,0,1,1,0,0,1,1,1,1,1,1,1,1,0],
+			[0,1,0,1,0,1,0,0,1,0,1,0,0,0,1,1,0],
+			[0,4,1,1,1,1,1,1,1,0,1,1,1,0,0,1,0],
+			[0,1,1,0,3,0,1,0,0,0,0,0,1,0,0,1,0],
+			[0,1,0,0,1,0,1,1,1,1,1,1,1,1,1,1,0],
+			[0,1,1,1,1,1,1,0,0,1,0,1,1,0,0,1,0],
+			[0,1,0,0,0,0,1,1,1,0,0,1,0,0,0,1,0],
+			[0,1,4,1,9,1,1,0,1,1,1,1,1,1,1,1,0],
+			[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+		];
+		
+		var world3 = [
+			[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+			[0,1,0,0,1,1,0,0,1,1,1,1,1,1,1,1,0],
+			[0,1,0,1,0,1,0,0,1,0,1,0,0,0,1,1,0],
+			[0,4,1,1,1,1,1,1,1,0,1,1,1,0,0,1,0],
+			[0,1,1,0,3,0,1,0,0,0,0,0,1,0,0,1,0],
+			[0,1,0,0,1,0,1,1,1,1,1,1,1,1,1,1,0],
+			[0,1,1,1,1,1,1,0,0,1,0,1,1,0,0,1,0],
+			[0,1,0,0,0,0,1,1,1,0,0,1,0,0,0,1,0],
+			[0,1,4,1,9,1,1,0,1,1,1,1,1,1,1,1,0],
+			[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+		];
+		
+		$('body').on('keydown', function(keyboard_event){
+			keyboard_event.preventDefault();
+			switch (keyboard_event.keyCode){
+				//someone just hit the 'left' button on their keyboard
+				case 37: {
+					
+					//steve can not move left into a wall
+					if (world[steve.up_and_down][steve.left_and_right - 1] == 0){
+						//don't let steve move left
+					}else{
+						
+						if (world[steve.up_and_down][steve.left_and_right - 1] == 1){
+							//steve wants to pick up a coin
+							
+							//let's increase the playerScore by 10
+							playerScore = playerScore + 10; // 0 + 10
+							 
+							$('h1#score').html('Score: '+playerScore);
+							//<h1 id="score">Score: 10</h1>
+							
+					 	}
+						if (world[steve.up_and_down][steve.left_and_right - 1] == 4){
+							//steve wants to pick up a pickaxe
+							
+							//let's increase the playerScore by 100
+							playerScore = playerScore + 100; // 0 + 10
+							
+							$('h1#score').html('Score: '+playerScore);
+							//<h1 id="score">Score: 10</h1>
+							
+						}
+						world[steve.up_and_down][steve.left_and_right - 1] = 9;
+						world[steve.up_and_down][steve.left_and_right] = 2;
+						steve.left_and_right = steve.left_and_right - 1;
+					}
+					
+					if(levelScore == playerScore){
+					//	you beat the level
+						$('h1#score').html("Congratulations! You beat the level!");
+					}            					
+					
+					displayWorld();
+					break;
+				}
+				//someone just hit the 'up' button on their keyboard
+				case 38: {
+					if (world[steve.up_and_down - 1][steve.left_and_right] == 0){
+						//don't let steve move up
+					}else{
+						//let's let steve move up
+						if (world[steve.up_and_down -1][steve.left_and_right ] == 1){
+							//steve wants to pick up a coin
+							
+							//let's increase the playerScore by 10
+							playerScore = playerScore + 10; // 0 + 10
+							
+							$('h1#score').html('Score: '+playerScore);
+							//<h1 id="score">Score: 10</h1>
+							
+						}
+						if (world[steve.up_and_down -1][steve.left_and_right ] == 4){
+							//steve wants to pick up a pickaxe
+							
+							//let's increase the playerScore by 100
+							playerScore = playerScore + 100; // 0 + 10
+							
+							$('h1#score').html('Score: '+playerScore);
+							//<h1 id="score">Score: 10</h1>
+							
+						}
+						world[steve.up_and_down -1][steve.left_and_right] = 9;
+						world[steve.up_and_down][steve.left_and_right] = 2;
+						steve.up_and_down = steve.up_and_down - 1;
+					}
+					
+					if(levelScore == playerScore){
+					//	you beat the level
+						$('h1#score').html("Congratulations! You beat the level!");
+					}  
+					
+					displayWorld();
+					break;						
+						
+				}
+				//someone just hit the 'right' button on their keyboard
+				case 39: {
+					//steve cannot move right into a wall
+					if (world[steve.up_and_down][steve.left_and_right + 1] == 0){
+						//don't let steve move right
+					}else{	
+						//let's let steve move right
+						if (world[steve.up_and_down][steve.left_and_right +1] == 1){
+							//steve wants to pick up a coin
+							
+							//let's increase the playerScore by 10
+							playerScore = playerScore + 10; // 0 + 10
+							
+							$('h1#score').html('Score: '+playerScore);
+							//<h1 id="score">Score: 10</h1>
+							
+						}
+						
+						if (world[steve.up_and_down][steve.left_and_right +1] == 4){
+							//steve wants to pick up a pickaxe
+							
+							//let's increase the playerScore by 100
+							playerScore = playerScore + 100; // 0 + 100
+							
+							$('h1#score').html('Score: '+playerScore);
+							//<h1 id="score">Score: 10</h1>
+							
+						}
+						world[steve.up_and_down][steve.left_and_right + 1] = 9;
+						world[steve.up_and_down][steve.left_and_right] = 2;
+						steve.left_and_right = steve.left_and_right + 1;
+						
+					}
+					
+					if(levelScore == playerScore){
+					//	you beat the level
+						$('h1#score').html("Congratulations! You beat the level!");
+					}
+
+					displayWorld();
+					break;
+				}
+				//someone just hit the 'down' button on their keyboard
+				case 40: {	
+					if (world[steve.up_and_down + 1][steve.left_and_right] == 0){
+						//don't let steve move down
+					}else{
+						//let's let steve move down
+						if (world[steve.up_and_down + 1][steve.left_and_right] == 1){
+							//steve wants to pick up a coin
+							
+							//let's increase the playerScore by 10
+							playerScore = playerScore + 10; // 0 + 10
+							
+							$('h1#score').html('Score: '+playerScore);
+							//<h1 id="score">Score: 10</h1>
+							
+						}
+						if (world[steve.up_and_down + 1][steve.left_and_right] == 4){
+							//steve wants to pick up a pickaxe
+							
+							//let's increase the playerScore by 100
+							playerScore = playerScore + 100; // 0 + 10
+							
+							$('h1#score').html('Score: '+playerScore);
+							//<h1 id="score">Score: 10</h1>
+							
+						}
+						
+						world[steve.up_and_down +1][steve.left_and_right ] = 9;
+						world[steve.up_and_down][steve.left_and_right] = 2;
+						steve.up_and_down = steve.up_and_down +1;
+						 
+					}
+					
+					if(levelScore == playerScore){
+					//	you beat the level
+						$('h1#score').html("Congratulations! You beat the level!");
+					}
+					
+					displayWorld();	
+					break; 
+				}
+				displayWorld();
+			}
+		});
+	
+		var output = "";
+		
+		function displayWorld(){
+			output = "";
+			for (var i = 0; i < world.length; i++){
+				output += "<div class='row'>"
+				for (var j = 0; j < world[i].length; j++){
+					if (world[i][j] == 0){
+						output += "<div class='wall'></div>";
+					}else if (world[i][j] == 1){
+						output += "<div class='coin'></div>";
+					}else if (world[i][j] == 2){
+						output += "<div class='empty'></div>";
+					}else if (world[i][j] == 3){
+						output += "<div class='creeper'></div>";
+					}else if (world[i][j] == 4){
+						output += "<div class='axe'></div>";
+					}else if (world[i][j] == 8){
+						output += "<div class='steve_armor'></div>";
+					}else if (world[i][j] == 9){
+						output += "<div class='steve'></div>";
+					}
+					
+					
+				}
+				output += "</div>";
+			}
+	
+			$('#world').html(output);
+		}
+		
+		function getLevelScore(){
+			var levelScore = 0;
+			for (var i = 0; i < world.length; i++){
+				
+				for (var j = 0; j < world[i].length; j++){
+					if (world[i][j] == 1){
+						levelScore = levelScore + 10;
+					}else if (world[i][j] == 4){
+						levelScore = levelScore + 100; 
+					}
+					
+				}
+
+			}
+			return levelScore;
+		}
+		var levelScore = getLevelScore();
+		displayWorld();
+	})
+</script>
+</html>

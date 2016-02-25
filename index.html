@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Minecraft-Pacman</title>
+	<script src="jquery-1.11.3.min.js"></script>
+	<style>
+		body{
+			background-color: black;
+		}
+		div.row div{
+			display: inline-block;
+			width: 50px;
+			height: 50px;
+			margin-right: 3px;
+		}
+		.wall{
+			background: url('rock.png');
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+		.steve{
+			background: url('steve.jpg');
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+		.creeper{
+			background: url('creeper.jpg');
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+		.coin{
+			background: url('coin.gif');
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+		.axe{
+			background: url('axe.png');
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+	</style>
+</head>
+<body>
+	<div id="world"></div>
+</body>
+<script>
+	$(document).ready(function(){
+		console.log('hello');
+		var steve = { x:4, y:6 };
+		
+		var world = [
+			[0,0,0,0,0,0,0,0],
+			[0,4,1,1,1,1,1,0],
+			[0,1,1,0,3,0,1,0],
+			[0,1,0,0,0,0,1,0],
+			[0,1,1,1,1,1,1,0],
+			[0,1,0,0,0,0,1,0],
+			[0,1,1,1,9,1,1,0],
+			[0,0,0,0,0,0,0,0]
+		];
+		
+		$('body').on('keydown', function(keyboard_event){
+			keyboard_event.preventDefault();
+			switch (keyboard_event.keyCode){
+				//left
+				case 37: {
+					steve.x = steve.x - 1;
+					break;
+				}
+				//up
+				case 38: {
+					
+					break;
+				}
+				//right
+				case 39: {
+					
+					break;
+				}
+				//down
+				case 40: {
+
+				}
+				default: displayWorld();
+			}
+		});
+	
+		var output = "";
+		
+		function displayWorld(){
+			output = "";
+			for (var i = 0; i < world.length; i++){
+				output += "<div class='row'>"
+				for (var j = 0; j < world[i].length; j++){
+					if (world[i][j] == 0){
+						output += "<div class='wall'></div>";
+					}else if (world[i][j] == 1){
+						output += "<div class='coin'></div>";
+					}else if (world[i][j] == 9){
+						output += "<div class='steve'></div>";
+					}else if (world[i][j] == 3){
+						output += "<div class='creeper'></div>";
+					}else if (world[i][j] == 4){
+						output += "<div class='axe'></div>";
+					}
+				}
+				output += "</div>";
+			}
+	
+			$('#world').html(output);
+		}
+	
+		displayWorld();
+	})
+</script>
+</html>
